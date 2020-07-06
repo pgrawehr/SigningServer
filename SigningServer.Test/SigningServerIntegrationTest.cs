@@ -18,7 +18,7 @@ namespace SigningServer.Test
         [OneTimeSetUp]
         public void Setup()
         {
-            _certificateHelper = new CertificateStoreHelper("Certificates/SigningServer.Test.pfx", StoreName.My,
+            _certificateHelper = new CertificateStoreHelper(CertificatePath, StoreName.My,
                 StoreLocation.LocalMachine);
 
             var configuration = new SigningServerConfiguration
@@ -56,11 +56,11 @@ namespace SigningServer.Test
             {
                 SigningServer = "localhost:4711"
             });
-            client.SignFile("IntegrationTestFiles/unsigned");
+            client.SignFile(Path.Combine(ExecutionDirectory, "IntegrationTestFiles/unsigned"));
 
             Assert.AreEqual(0, Directory.GetFiles("WorkingDirectory").Length, "Server Side file cleanup failed");
 
-            var signedFiles = Directory.GetFiles("IntegrationTestFiles");
+            var signedFiles = Directory.GetFiles(Path.Combine(ExecutionDirectory, "IntegrationTestFiles"));
             var signingTools = _service.SigningServer.SigningToolProvider;
 
             foreach (var signedFile in signedFiles)
