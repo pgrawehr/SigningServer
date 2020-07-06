@@ -15,7 +15,7 @@ namespace SigningServer.Test
     {
         private CertificateStoreHelper _certificateHelper;
         private SigningServerService _service;
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void Setup()
         {
             _certificateHelper = new CertificateStoreHelper("Certificates/SigningServer.Test.pfx", StoreName.My,
@@ -42,7 +42,7 @@ namespace SigningServer.Test
             _service.ConsoleStart();
         }
 
-        [TestFixtureTearDown]
+        [OneTimeTearDown]
         public void TearDown()
         {
             _service.ConsoleStop();

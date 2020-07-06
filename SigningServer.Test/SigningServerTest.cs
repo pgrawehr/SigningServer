@@ -21,15 +21,14 @@ namespace SigningServer.Test
         }
 
         [Test]
-        [ExpectedException(typeof(InvalidConfigurationException), ExpectedMessage = InvalidConfigurationException.NoValidCertificatesMessage)]
         public void TestNoCertificatesThrowsError()
         {
             var emptyConfig = new SigningServerConfiguration();
-            var server = new Server.SigningServer(emptyConfig, CreateEmptySigningToolProvider());
+            var error = Assert.Throws<InvalidConfigurationException>(() => new Server.SigningServer(emptyConfig, CreateEmptySigningToolProvider()));
+            Assert.AreEqual(InvalidConfigurationException.NoValidCertificatesMessage, error.Message);
         }
 
         [Test]
-        [ExpectedException(typeof(InvalidConfigurationException), ExpectedMessage = InvalidConfigurationException.CreateWorkingDirectoryFailedMessage)]
         public void InvalidWorkingDirectoryThrowsError()
         {
             var emptyConfig = new SigningServerConfiguration
@@ -44,7 +43,8 @@ namespace SigningServer.Test
                 WorkingDirectory = "T:\\NotExisting"
             };
             var server = new Server.SigningServer(emptyConfig, CreateEmptySigningToolProvider());
-            server.GetSupportedFileExtensions();
+            var exception = Assert.Throws<InvalidConfigurationException>(() => server.GetSupportedFileExtensions());
+            Assert.AreEqual(InvalidConfigurationException.CreateWorkingDirectoryFailedMessage, exception.Message);
         }
 
         [Test]
