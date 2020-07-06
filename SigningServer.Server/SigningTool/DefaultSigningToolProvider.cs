@@ -8,7 +8,7 @@ namespace SigningServer.Server
     {
         private static readonly ISigningTool[] SigningTools =
         {
-            new PortableExectuableSigningTool(),
+            new PortableExectuableSigningTool(LogFunction),
             new AndroidApkSigningTool()
         };
 
@@ -16,6 +16,10 @@ namespace SigningServer.Server
             : base(SigningTools)
         {
             
+        }
+
+        private static void LogFunction(string message)
+        {
         }
     }
 }
